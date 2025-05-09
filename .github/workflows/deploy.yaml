@@ -1,31 +1,16 @@
-name: Build and Deploy Eleventy
-on:
-  push:
-    branches: [main]
+name: Eleventy Deploy
+on: [push]
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build_deploy:
+    runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@master
+      - name: Build
+        uses: TartanLlama/actions-eleventy@master
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          node-version: 18
-      - name: Install dependencies
-        run: npm install
-      - name: Build Eleventy
-        run: npx eleventy
-      - name: Copy to docs folder
-        run: |
-          rm -rf docs
-          mkdir docs
-          cp -r _site/* docs/
-      - name: Commit and push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs
-          git commit -m "Update GitHub Pages output" || echo "No changes"
-          git push origin main
+          publish_dir: _site 
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
