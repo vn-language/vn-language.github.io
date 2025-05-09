@@ -1,0 +1,99 @@
+:root {
+  --bg-color: #353535;
+  --fg-color: #f4f4f4;
+  --accent-color: #ff9e3f;
+  --link-color: #f5a623;
+  --code-bg: #3a3a3a;
+  --code-fg: #f4f4f4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "IBM Plex Mono", monospace, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  font-size: 1rem;
+  max-width: 40vw;
+  margin: auto;
+  padding: 2rem;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+header {
+  margin-bottom: 2rem;
+}
+header h1 a {
+  font-size: 2rem;
+  color: var(--fg-color);
+  text-decoration: none;
+}
+nav a {
+  margin-right: 1rem;
+  font-weight: bold;
+  color: var(--fg-color);
+}
+nav a:hover {
+  color: var(--accent-color);
+}
+
+.hero {
+  background: #444444;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+.hero h2 {
+  margin-top: 0;
+}
+
+main {
+  padding-bottom: 4rem;
+}
+main h1,
+main h2,
+main h3 {
+  margin-top: 2rem;
+  color: var(--fg-color);
+}
+main code {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  padding: 0.2rem 0.4rem;
+  border-radius: 8px;
+}
+pre code {
+  display: block;
+  padding: 1rem;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+footer {
+  border-top: 1px solid #555;
+  margin-top: 3rem;
+  padding-top: 1rem;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.post-date {
+  font-size: 0.9rem;
+  color: #bbb;
+  margin-bottom: 1rem;
+}
