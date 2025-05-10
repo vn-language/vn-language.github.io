@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vanadium</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+  <body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css"
+    />
+    <header>
+      <h1><a href="/">Vanadium</a></h1>
+      <nav>
+        <a href="/docs/">Docs</a>
+        <!--<a href="/spec/">Spec</a>-->
+        <a href="/ref/">Standard Library</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h2>A small, robust programming language</h2>
+        <p>Vanadium is a lightweight high-level systems language designed for clarity, safety, and reliability.</p>
+      </section>
+
+      <p>Vanadium is a strictly typed, high-level systems programming language with <strong>strong memory management</strong>, <strong>strict semantics</strong> and <strong>C interoperability</strong>. Designed as a <em>stricter but more modern and less painful</em> alternative of C/C++, Vanadium provides <strong>raw power and performance</strong> with <strong>explicitness and transparency</strong> while also implementing a <a href="/ref/"><strong>rich standard library</strong></a> with helpers, macros and abstraction of more complex systems.</p>
+<pre class="language-vanadium"><code class="language-vanadium">include std::io;
+
+frozen fn main() {
+    io::print("Hello, World!");
+}</code></pre>
+<p><a href="/docs/">Get started</a></p>
+
+    </main>
+
+    <footer>
+      <p>
+        © 2025
+        <a href="https://github.com/vn-language/">The Vanadium Team</a>
+      </p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+    <script src="/assets/js/vanadium-prism.js"></script>
+  </body>
+</html>
