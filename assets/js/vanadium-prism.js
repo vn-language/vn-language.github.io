@@ -5,7 +5,7 @@ Prism.languages.vanadium = {
   },
 
   keyword:
-    /\b(fn|if|else|return|for|while|include|unsafe|struct|new|mut|imut)\b/,
+    /\b(fn|if|elif|else|return|for|while|include|unsafe|struct|new|mut|imut|switch)\b/,
   boolean: /\b(?:false|true)\b/,
 
   weak_keyword: {
@@ -28,7 +28,7 @@ Prism.languages.vanadium = {
     alias: "property",
   },
 
-  special: { pattern: /\b(std|io|self)\b/, alias: "property" },
+  special: { pattern: /\b(std|io|self|Result)\b/, alias: "property" },
 
   operator: /[-+*/%=!<>]=?/,
 
