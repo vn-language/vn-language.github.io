@@ -27,11 +27,90 @@
       </section>
 
       <p>Vanadium is a strictly typed, high-level systems programming language with <strong>strong memory management</strong>, <strong>strict semantics</strong> and <strong>C interoperability</strong>. Designed as a <em>stricter but more modern and less painful</em> alternative of C/C++, Vanadium provides <strong>raw power and performance</strong> with <strong>explicitness and transparency</strong> while also implementing a <a href="/ref/"><strong>rich standard library</strong></a> with helpers, macros and abstraction of more complex systems.</p>
+<h3>Examples:</h3>
+<details>
+<summary>Hello, World!</summary>
 <pre class="language-vanadium"><code class="language-vanadium">include std::io;
 
 frozen fn main() {
     io::print("Hello, World!");
 }</code></pre>
+</details>
+<details>
+<summary>Iterate over an array</summary>
+<pre class="language-vanadium"><code class="language-vanadium">include std::io;
+
+frozen fn main() {
+    imut names: str[] = ["Jhon", "Tom", "Angela", "Luca"];
+    for name in names {
+        io::print("Hello, " + name + "!");
+    }
+}</code></pre>
+</details>
+<details>
+<summary>Unsafe casting</summary>
+<pre class="language-vanadium"><code class="language-vanadium">frozen fn main() {
+    imut long_int: int64 = 0xFFFFF;
+    imut to_short: int16 = unsafe { long_int as int16 };
+    unsafe {
+        imut to_short_float: float16 = long_int as float16;
+    };
+}</code></pre>
+</details>
+<details>
+<summary>Create a Vector2 structure</summary>
+<pre class="language-vanadium"><code class="language-vanadium">struct Vector2 {
+    x: float32,
+    y: float32,
+
+    frozen fn Vector2(self: *Vector2, x: float32, y: float32) {
+        self.x = x;
+        self.y = y;
+    }
+}
+
+frozen fn main() {
+    imut my_vec = new Vector2(0.6, 4.7);
+}</code></pre>
+</details>
+<details>
+<summary>Import another file</summary>
+<p>File <code>math.vn</code>:</p>
+<pre class="language-vanadium"><code class="language-vanadium">publ frozen fn add(a: int32, b: int32): int32 {
+    a + b
+}</code></pre>
+<p>File <code>main.vn</code>:</p>
+<pre class="language-vanadium"><code class="language-vanadium">include std::io;
+include math;
+
+frozen fn main() {
+    io::print(math::add(5, 5));
+}</code></pre>
+</details>
+<details>
+<summary>Use shared variables</summary>
+<p>File <code>config.vn</code>:</p>
+<pre class="language-vanadium"><code class="language-vanadium">struct Config {
+    secrets: str{str}, @ Map with string keys and string values
+}
+
+shared mut conf = new Config;</code></pre>
+<p>File <code>secrets.vn</code>:</p>
+<pre class="language-vanadium"><code class="language-vanadium">include config;
+
+publ frozen fn init_secrets() { 
+    config::conf.secrets = {"PASSW" = "passivationisthebest123"};
+}</code></pre>
+<p>File <code>main.vn</code>:</p>
+<pre class="language-vanadium"><code class="language-vanadium">include std::io;
+include config;
+include secrets;
+
+frozen fn main() {
+    secrets::init_secrets();
+    io::print(config::conf.secrets); @ {"PASSW" = "passivationisthebest123"}
+}</code></pre>
+</details>
 <p><a href="/docs/">Get started</a></p>
 
     </main>
