@@ -22,16 +22,31 @@
     <main>
       <h2>{{ title }}</h2>
       {{ content | safe }}
-
-      <ul>
-        {% for page in collections.docs %} {% if page.show %}
-        <li><a href="{{ page.url }}">{{ page.data.title }}</a></li>
-        {% endif %} {% endfor %}
-      </ul>
     </main>
 
+    <nav class="sidebar">
+      <ul>
+        {% for sectionName in collections.doc_sections %}
+        <li>
+          <h3 class="doc-section-header">{{ sectionName }}</h3>
+          <ul>
+            {% for page in collections.docs %} {% if page.data.parent ==
+            sectionName and page.data.show %}
+            <li style="padding-left: 10px">
+              <a href="{{ page.url }}">{{ page.data.title }}</a>
+            </li>
+            {% endif %} {% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
     <footer>
-      <p>&copy; 2025 The Vanadium Team</p>
+      <p>
+        &copy; 2025
+        <a href="https://github.com/vn-language">The Vanadium Team</a>
+      </p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>

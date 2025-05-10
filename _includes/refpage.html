@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>{{ title }} - Vanadium</title>
+    <title>{{ title }} - Vanadium Docs</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
   </head>
   <body>
@@ -14,19 +14,20 @@
       <h1><a href="/">Vanadium</a></h1>
       <nav>
         <a href="/docs/">Docs</a>
-        <a href="/ref/">Standard Library</a>
+        <!--<a href="/content/spec/">Spec</a>-->
+        <a href="/reference/">Standard Library</a>
         <a href="/blog/">Blog</a>
       </nav>
     </header>
 
-    <main>
-      <article>
-        <h2>{{ title }}</h2>
-        {{ content | safe }}
-      </article>
+    <main class="doc">
+      <h2>{{ title }}</h2>
+      {{ content | safe }}
     </main>
 
     <nav class="sidebar">
+      <h3 style="padding-left: 1rem"><a href="/ref/">Homepage</a></h3>
+      <hr />
       <ul>
         {% for sectionName in collections.ref_sections %}
         <li>
@@ -45,10 +46,7 @@
     </nav>
 
     <footer>
-      <p>
-        &copy; 2025
-        <a href="https://github.com/vn-language">The Vanadium Team</a>
-      </p>
+      <p>Reference last update: {{ page.date | readableDate }}</p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>

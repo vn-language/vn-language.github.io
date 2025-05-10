@@ -13,10 +13,10 @@
     <header>
       <h1><a href="/">Vanadium</a></h1>
       <nav>
-        <a href="/content/docs/">Docs</a>
+        <a href="/docs/">Docs</a>
         <!--<a href="/content/spec/">Spec</a>-->
-        <a href="/content/reference/">Standard Library</a>
-        <a href="/content/blog/">Blog</a>
+        <a href="/reference/">Standard Library</a>
+        <a href="/blog/">Blog</a>
       </nav>
     </header>
 
@@ -25,8 +25,28 @@
       {{ content | safe }}
     </main>
 
+    <nav class="sidebar">
+      <h3 style="padding-left: 1rem"><a href="/docs/">Homepage</a></h3>
+      <hr />
+      <ul>
+        {% for sectionName in collections.doc_sections %}
+        <li>
+          <h3 class="doc-section-header">{{ sectionName }}</h3>
+          <ul>
+            {% for page in collections.docs %} {% if page.data.parent ==
+            sectionName and page.data.show %}
+            <li style="padding-left: 10px">
+              <a href="{{ page.url }}">{{ page.data.title }}</a>
+            </li>
+            {% endif %} {% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
     <footer>
-      <p>Docs last updated: {{ page.date | readableDate }}</p>
+      <p>Doc last update: {{ page.date | readableDate }}</p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>

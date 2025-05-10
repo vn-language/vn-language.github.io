@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("assets");
 
@@ -22,11 +25,31 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addCollection("docs", function (collectionApi) {
-    return collectionApi.getFilteredByGlob("content/docs/*.md").reverse();
+    return collectionApi.getFilteredByGlob("content/docs/**/*.md").reverse();
   });
 
   eleventyConfig.addCollection("ref", function (collectionApi) {
     return collectionApi.getFilteredByGlob("content/reference/*.md").reverse();
+  });
+
+  eleventyConfig.addCollection("doc_sections", function (collectionApi) {
+    const groupsData = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "content/_data/groups.json")),
+    );
+
+    const sections = groupsData.docs;
+
+    return sections;
+  });
+
+  eleventyConfig.addCollection("ref_sections", function (collectionApi) {
+    const groupsData = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "content/_data/groups.json")),
+    );
+
+    const sections = groupsData.ref;
+
+    return sections;
   });
 
   eleventyConfig.addLayoutAlias("default", "index.html");
