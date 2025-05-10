@@ -52,6 +52,29 @@ frozen fn main() {
 </details>
 
 <details>
+<summary>Error handling</summary>
+
+```vanadium
+include std::io;
+include std::err::Result,panic;
+
+fn div(a: int32, b: int32): Result&lt;int32, str&gt; {
+    if (b == 0) { Error("Can't divide by zero") }
+    Ok(a / b)
+}
+
+frozen fn main() {
+    imut result = div(5, 0);
+    switch result {
+        Ok => |res| io::print("Result: " + res),
+        Error => |err| panic(err);
+    };
+}
+```
+
+</details>
+
+<details>
 <summary>Create a Vector2 structure</summary>
 
 ```vanadium
