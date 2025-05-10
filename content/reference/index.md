@@ -4,11 +4,4 @@ layout: ref-home.html
 permalink: /ref/index.html
 ---
 
-Hello, Vanadium!
-```vanadium
-include std::io;
-
-frozen fn main() {
-    io::print("string");
-}
-```
+Here you will find the reference to all Vanadium modules.
