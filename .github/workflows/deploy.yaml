@@ -1,16 +1,41 @@
-name: Eleventy Deploy
-on: [push]
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  build_deploy:
-    runs-on: ubuntu-18.04
+  build:
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@master
-      - name: Build
-        uses: TartanLlama/actions-eleventy@master
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          publish_dir: _site 
+          node-version: "22"
+
+      - name: Persist npm cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+
+      - name: Persist Eleventy .cache
+        uses: actions/cache@v3
+        with:
+          path: ./.cache
+          key: ${{ runner.os }}-eleventy-fetch-cache
+
+      - run: npm install
+      - run: npm run build
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          publish_dir: build
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
