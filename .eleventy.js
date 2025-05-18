@@ -28,11 +28,17 @@ module.exports = function (eleventyConfig) {
     return collectionApi.getFilteredByGlob("content/docs/**/*.md").reverse();
   });
 
-  eleventyConfig.addCollection("ref", function (collectionApi) {
-    return collectionApi.getFilteredByGlob("content/reference/*.md").reverse();
+  eleventyConfig.addCollection("spec", function (collectionApi) {
+    return collectionApi.getFilteredByGlob("content/spec/**/*.md").reverse();
   });
 
-  eleventyConfig.addCollection("doc_sections", function (collectionApi) {
+  eleventyConfig.addCollection("ref", function (collectionApi) {
+    return collectionApi
+      .getFilteredByGlob("content/reference/**/*.md")
+      .reverse();
+  });
+
+  eleventyConfig.addCollection("doc_sections", function (_) {
     const groupsData = JSON.parse(
       fs.readFileSync(path.join(__dirname, "content/_data/groups.json")),
     );
@@ -42,7 +48,17 @@ module.exports = function (eleventyConfig) {
     return sections;
   });
 
-  eleventyConfig.addCollection("ref_sections", function (collectionApi) {
+  eleventyConfig.addCollection("spec_sections", function (_) {
+    const groupsData = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "content/_data/groups.json")),
+    );
+
+    const sections = groupsData.spec;
+
+    return sections;
+  });
+
+  eleventyConfig.addCollection("ref_sections", function (_) {
     const groupsData = JSON.parse(
       fs.readFileSync(path.join(__dirname, "content/_data/groups.json")),
     );
@@ -53,6 +69,10 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addLayoutAlias("default", "index.html");
+  eleventyConfig.addLayoutAlias("post", "single.html");
+  eleventyConfig.addLayoutAlias("docpage", "docpage.html");
+  eleventyConfig.addLayoutAlias("refpage", "refpage.html");
+  eleventyConfig.addLayoutAlias("specpage", "docpage.html");
 
   const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
   eleventyConfig.addPlugin(syntaxHighlight);

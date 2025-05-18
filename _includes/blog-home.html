@@ -12,11 +12,7 @@
     />
     <header>
       <h1><a href="/">Vanadium</a></h1>
-      <nav>
-        <a href="/docs/">Docs</a>
-        <a href="/ref/">Standard Library</a>
-        <a href="/blog/">Blog</a>
-      </nav>
+      {% include "menu.html" %}
     </header>
 
     <main>
@@ -24,7 +20,7 @@
       {{ content | safe }}
 
       <ul>
-        {% for post in collections.blog | reverse %} {% if post.show %}
+        {% for post in collections.blog | reverse %} {% if post.data.show %}
         <li>
           <a href="{{ post.url }}">{{ post.data.title }}</a>
           <small>{{ post.date | readableDate }}</small>

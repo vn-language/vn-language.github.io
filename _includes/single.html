@@ -12,12 +12,7 @@
     />
     <header>
       <h1><a href="/">Vanadium</a></h1>
-      <nav>
-        <a href="/content/docs/">Docs</a>
-        <!--<a href="/content/spec/">Spec</a>-->
-        <a href="/content/reference/">Standard Library</a>
-        <a href="/content/blog/">Blog</a>
-      </nav>
+      {% include "menu.html" %}
     </header>
 
     <main class="post">
@@ -30,6 +25,10 @@
 
     <footer>
       <p>Back to <a href="/blog/">all posts</a></p>
+      <p>
+        © {{ year }}
+        <a href="https://github.com/vn-language/">The Vanadium Team</a>
+      </p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>

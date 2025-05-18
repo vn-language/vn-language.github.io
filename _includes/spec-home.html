@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>{{ title }} - Vanadium</title>
+    <title>{{ title }} - Vanadium Spec</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
   </head>
   <body>
@@ -16,19 +16,17 @@
     </header>
 
     <main>
-      <article>
-        <h2>{{ title }}</h2>
-        {{ content | safe }}
-      </article>
+      <h2>{{ title }}</h2>
+      {{ content | safe }}
     </main>
 
     <nav class="sidebar">
       <ul>
-        {% for sectionName in collections.ref_sections %}
+        {% for sectionName in collections.spec_sections %}
         <li>
           <h3 class="doc-section-header">{{ sectionName }}</h3>
           <ul>
-            {% for page in collections.ref %} {% if page.data.parent ==
+            {% for page in collections.spec %} {% if page.data.parent ==
             sectionName and page.data.show %}
             <li style="padding-left: 10px">
               <a href="{{ page.url }}">{{ page.data.title }}</a>
