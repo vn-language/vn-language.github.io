@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>{{ title }} - Vanadium Docs</title>
+    <title>{{ title }} - Vanadium Spec</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
   </head>
   <body>
@@ -22,11 +22,11 @@
 
     <nav class="sidebar">
       <ul>
-        {% for sectionName in collections.doc_sections %}
+        {% for sectionName in collections.spec_sections %}
         <li>
           <h3 class="doc-section-header">{{ sectionName }}</h3>
           <ul>
-            {% for page in collections.docs %} {% if page.data.parent ==
+            {% for page in collections.spec %} {% if page.data.parent ==
             sectionName and page.data.show %}
             <li style="padding-left: 10px">
               <a href="{{ page.url }}">{{ page.data.title }}</a>
@@ -39,8 +39,8 @@
     </nav>
 
     <footer>
-      <p>Back to <a href="/docs/">all docs</a></p>
-      <p>Doc last update: {{ page.date | readableDate }}</p>
+      <p>Back to <a href="/spec/">all spec</a></p>
+      <p>Spec page last update: {{ page.date | readableDate }}</p>
       <p>
         &copy; 2025
         <a href="https://github.com/vn-language">The Vanadium Team</a>
