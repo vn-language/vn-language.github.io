@@ -1,36 +1,56 @@
 Prism.languages.vanadium = {
-  comment: {
-    pattern: /@.*|\/\*[\s\S]*?(?:\*\/|$)/,
+  comment: [
+    {
+      // Doc comment: @/
+      pattern: /@\/.*/,
+      greedy: true,
+      alias: "doc-comment",
+    },
+    {
+      // Single-line comment: @@
+      pattern: /@@.*/,
+      greedy: true,
+      alias: "comment",
+    },
+    {
+      // Multi-line comment: @* *@
+      pattern: /@\*[\s\S]*?\*@/,
+      greedy: true,
+      alias: "comment",
+    },
+  ],
+
+  keyword:
+    /\b(?:if|else|elif|while|for|in|repeat|until|defer|delete|match|case|default|func|return|class|public|private|override|struct|iface|impl|enum|let|const|static|discard|from|include|typeof|throw|try|catch|guard|as|unless|ifso|new|destruct|unsafe|break|continue|delete|export|sealed)\b/,
+
+  boolean: /\b(true|false|null)\b/,
+
+  number: [
+    /\b0x[0-9a-fA-F]+\b/, // Hex
+    /\b0b[01]+\b/, // Binary
+    /\b\d+\.\d+\b/, // Float
+    /\b\d+\b/, // Integer
+  ],
+
+  string: {
+    pattern: /"(?:\\.|[^"\\])*"/,
     greedy: true,
   },
 
-  keyword:
-    /\b(fn|if|elif|else|return|for|while|include|unsafe|struct|new|mut|imut|switch)\b/,
-  boolean: /\b(?:false|true)\b/,
-
-  weak_keyword: {
-    pattern: /\b(in|as|frozen|publ|priv|shared)\b/,
-    alias: "boolean",
-  },
-
-  number: [/\b\d+(\.\d+)?\b/, /\b0x[0-9a-fA-F]+\b/, /\b0b[01]+\b/],
-
-  string: /"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/,
-
   function: {
-    pattern: /\b\w+(?=\()/,
-    alias: "property",
+    pattern: /\b[a-zA-Z_]\w*(?=\s*\()/,
+    alias: "function",
   },
 
   type: {
     pattern:
-      /\b(int16|int32|int64|uint8|uint16|uint32|uint64|float16|float32|float64|type|void|bool|str)\b/,
+      /\b(int|short|long|uint|ushort|ulong|float|double|string|bool|void|tname)\b/,
     alias: "property",
   },
 
-  special: { pattern: /\b(std|io|self|Result)\b/, alias: "property" },
+  operator: /[-+*/%=!<>]=?|[&|^~]|\b(or|and|ifnot)\b/,
 
-  operator: /[-+*/%=!<>]=?/,
+  punctuation: /[{}[\];(),.:]/,
 
-  variable: [/\b[a-zA-Z_][a-zA-Z0-9_]*\b/],
+  variable: /\b[a-zA-Z_][a-zA-Z0-9_]*\b/,
 };

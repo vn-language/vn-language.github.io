@@ -27,107 +27,148 @@
         <p>Vanadium is a lightweight high-level systems language designed for clarity, safety, and reliability.</p>
       </section>
 
-      <p>Vanadium is a strictly typed, high-level systems programming language with <strong>strong memory management</strong>, <strong>strict semantics</strong> and <strong>C interoperability</strong>. Designed as a <em>stricter but more modern and less painful</em> alternative of C/C++, Vanadium provides <strong>raw power and performance</strong> with <strong>explicitness and transparency</strong> while also implementing a <a href="/ref/"><strong>rich standard library</strong></a> with helpers, macros and abstraction of more complex systems.</p>
+      <p>Vanadium is a robust programming language built with expressiveness and safety in mind. It blends low-level paradigms like manual memory management and bit-sized integers with high-level features, backed by a powerful unsafe system for when full control is needed.</p>
+<p>Vanadium gives you what you expect from C++ — and then some:</p>
+<ul>
+<li>Interfaces</li>
+<li><code>defer</code> and memory management helpers</li>
+<li>Cleaner lambdas</li>
+<li>Simpler iteration</li>
+<li>Safer (but optional) casting</li>
+<li>Sealed classes</li>
+<li>A real module system</li>
+<li>Compile-time values</li>
+<li>Clean error handling (<code>try</code>, <code>guard</code>, etc.)</li>
+<li>Implicit type inference (without auto)</li>
+</ul>
+<p>All this is packed in a language that prioritizes explicitness, transparency, and power, with a cleaner syntax and better tooling in mind.</p>
+<p>Vanadium is fully open-source and non-profit. It is currently being developed in C++.</p>
 <h3>Examples:</h3>
-<details>
-<summary>Hello, World!</summary>
-<pre class="language-vanadium"><code class="language-vanadium">include std::io;
+<details> 
+<summary><strong>Hello, World!</strong></summary>
+<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include print;
 
-frozen fn main() {
-    io::print("Hello, World!");
+static func main() {
+    print("Hello, World!");
 }</code></pre>
 </details>
-<details>
-<summary>Iterate over an array</summary>
-<pre class="language-vanadium"><code class="language-vanadium">include std::io;
+<details> 
+<summary><strong>Iterate over an array</strong></summary>
+<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include print;
 
-frozen fn main() {
-    imut names: str[] = ["Jhon", "Tom", "Angela", "Luca"];
+static func main() {
+    let names = ["Jhon", "Tom", "Angela", "Luca"];
     for name in names {
-        io::print("Hello, " + name + "!");
+        print("Hello, " + name + "!");
     }
 }</code></pre>
 </details>
-<details>
-<summary>Unsafe casting</summary>
-<pre class="language-vanadium"><code class="language-vanadium">frozen fn main() {
-    imut long_int: int64 = 0xFFFFF;
-    imut to_short: int16 = unsafe { long_int as int16 };
+<details> 
+<summary><strong>Unsafe casting</strong></summary>
+<pre class="language-vanadium"><code class="language-vanadium">static func main() {
+    let long_int: long = 0xFFFFF;
+
+    @@ Unsafe narrowing cast
+    let to_short: short = unsafe { long_int as short };
+
     unsafe {
-        imut to_short_float: float16 = long_int as float16;
+        let to_float: float = long_int as float;
     };
 }</code></pre>
 </details>
-<details>
-<summary>Error handling</summary>
-<pre class="language-vanadium"><code class="language-vanadium">include std::io;
-include std::err::Result,panic;
+<details> 
+<summary><strong>Error handling</strong></summary>
+<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include print;
+from "std/errors" include Exception;
 
-fn div(a: int32, b: int32): Result&lt;int32, str&gt; {
-    if (b == 0) { Error("Can't divide by zero") }
-    Ok(a / b)
+func div(a: int, b: int): !int {
+    return a / b unless b == 0 ifso throw new Exception("Can't divide by zero");
 }
 
-frozen fn main() {
-    imut result = div(5, 0);
-    switch result {
-        Ok => |res| io::print("Result: " + res),
-        Error => |err| panic(err);
+static func main() {
+    let result = try div(5, 0) catch {|err|
+        print("Error: " + err);
+        return;
     };
+    print("Result: " + result);
 }</code></pre>
 </details>
-<details>
-<summary>Create a Vector2 structure</summary>
-<pre class="language-vanadium"><code class="language-vanadium">struct Vector2 {
-    x: float32,
-    y: float32,
+<details> 
+<summary><strong>Create a Vector2 class</strong></summary>
+<pre class="language-vanadium"><code class="language-vanadium">class Vector2 {
+    public x: float,
+    public y: float,
 
-    frozen fn Vector2(self: *Vector2, x: float32, y: float32) {
+    static func new(self: &Vector2, x: float, y: float) {
         self.x = x;
         self.y = y;
     }
 }
 
-frozen fn main() {
-    imut my_vec = new Vector2(0.6, 4.7);
+static func main() {
+    let my_vec = new Vector2(0.6, 4.7);
 }</code></pre>
 </details>
-<details>
-<summary>Import another file</summary>
-<p>File <code>math.vn</code>:</p>
-<pre class="language-vanadium"><code class="language-vanadium">publ frozen fn add(a: int32, b: int32): int32 {
+<details> 
+<summary><strong>Import another file</strong></summary>
+<p>File <a href="http://math.vn">math.vn</a>:</p>
+<pre class="language-vanadium"><code class="language-vanadium">export static func add(a: int, b: int): int {
     a + b
 }</code></pre>
-<p>File <code>main.vn</code>:</p>
-<pre class="language-vanadium"><code class="language-vanadium">include std::io;
-include math;
+<p>File <a href="http://main.vn">main.vn</a>:</p>
+<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include print;
+include "math";
 
-frozen fn main() {
-    io::print(math::add(5, 5));
+static func main() {
+    print(add(5, 5));
+}</code></pre>
+</details>
+<details> 
+<summary><strong>Use static variables</strong></summary>
+<p>File <a href="http://config.vn">config.vn</a>:</p>
+<pre class="language-vanadium"><code class="language-vanadium">struct Config {
+    public secrets: {string}string = {};
+}
+
+export static conf = new Config;</code></pre>
+<p>File <a href="http://secrets.vn">secrets.vn</a>:</p>
+<pre class="language-vanadium"><code class="language-vanadium">include "config";
+
+export static func init_secrets() {
+    config.conf.secrets["PASSW"] = "passivationisthebest123";
+}</code></pre>
+<p>File <a href="http://main.vn">main.vn</a>:</p>
+<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include print;
+include "config";
+include "secrets";
+
+static func main() {
+    init_secrets();
+    print(conf.secrets);
 }</code></pre>
 </details>
 <details>
-<summary>Use shared variables</summary>
-<p>File <code>config.vn</code>:</p>
-<pre class="language-vanadium"><code class="language-vanadium">struct Config {
-    secrets: str{str}, @ Map with string keys and string values
+<summary>
+<strong>Allocate, reference and free memory</strong></summary>
+<pre class="language-vanadium"><code class="language-vanadium">@@ Ignore this! Jump directly to main.
+static func assert(condition: bool, message: string?)  {
+    throw new Exception(message ifnot "Assertion failed!") unless condition;
 }
 
-shared mut conf = new Config;</code></pre>
-<p>File <code>secrets.vn</code>:</p>
-<pre class="language-vanadium"><code class="language-vanadium">include config;
+static func main() {
+    @/ Manually allocated array
+    let arr = new [4]ulong;
+    assert(arr[2] == 0);
+    arr[2] = 0xFFFFF;
+    defer delete arr;
 
-publ frozen fn init_secrets() { 
-    config::conf.secrets = {"PASSW" = "passivationisthebest123"};
-}</code></pre>
-<p>File <code>main.vn</code>:</p>
-<pre class="language-vanadium"><code class="language-vanadium">include std::io;
-include config;
-include secrets;
+    let num = 7;
+    @/ Reference to variable "num"
+    let ptr = &amp;num; @@ Referencing
+    defer delete ptr;
 
-frozen fn main() {
-    secrets::init_secrets();
-    io::print(config::conf.secrets); @ {"PASSW" = "passivationisthebest123"}
+    *ptr = 5;
+    assert(num == 5);
 }</code></pre>
 </details>
 <p><a href="/docs/">Get started</a></p>
