@@ -3,150 +3,202 @@ title: Vanadium
 layout: index.html
 vanadium_desc: "Vanadium is a lightweight high-level systems language designed for clarity, safety, and reliability."
 ---
-Vanadium is a strictly typed, high-level systems programming language with **strong memory management**, **strict semantics** and **C interoperability**. Designed as a *stricter but more modern and less painful* alternative of C/C++, Vanadium provides **raw power and performance** with **explicitness and transparency** while also implementing a [**rich standard library**](/ref/) with helpers, macros and abstraction of more complex systems.
+Vanadium is a robust programming language built with expressiveness and safety in mind. It blends low-level paradigms like manual memory management and bit-sized integers with high-level features, backed by a powerful unsafe system for when full control is needed.
+
+Vanadium gives you what you expect from C++ — and then some:
+
+- Interfaces
+- `defer` and memory management helpers
+- Cleaner lambdas
+- Simpler iteration
+- Safer (but optional) casting
+- Sealed classes
+- A real module system
+- Compile-time values
+- Clean error handling (`try`, `guard`, etc.)
+- Implicit type inference (without auto)
+
+All this is packed in a language that prioritizes explicitness, transparency, and power, with a cleaner syntax and better tooling in mind.
+
+Vanadium is fully open-source and non-profit. It is currently being developed in C++.
 
 ### Examples:
 
-<details>
-<summary>Hello, World!</summary>
+<details> 
+<summary><strong>Hello, World!</strong></summary>
 
 ```vanadium
-include std::io;
+from "std/IO" include print;
 
-frozen fn main() {
-    io::print("Hello, World!");
+static func main() {
+    print("Hello, World!");
 }
 ```
 
 </details>
 
-<details>
-<summary>Iterate over an array</summary>
+<details> 
+<summary><strong>Iterate over an array</strong></summary>
 
 ```vanadium
-include std::io;
+from "std/IO" include print;
 
-frozen fn main() {
-    imut names: str[] = ["Jhon", "Tom", "Angela", "Luca"];
+static func main() {
+    let names = ["Jhon", "Tom", "Angela", "Luca"];
     for name in names {
-        io::print("Hello, " + name + "!");
+        print("Hello, " + name + "!");
     }
 }
 ```
 
 </details>
 
-<details>
-<summary>Unsafe casting</summary>
+<details> 
+<summary><strong>Unsafe casting</strong></summary>
 
 ```vanadium
-frozen fn main() {
-    imut long_int: int64 = 0xFFFFF;
-    imut to_short: int16 = unsafe { long_int as int16 };
+static func main() {
+    let long_int: long = 0xFFFFF;
+
+    @@ Unsafe narrowing cast
+    let to_short: short = unsafe { long_int as short };
+
     unsafe {
-        imut to_short_float: float16 = long_int as float16;
+        let to_float: float = long_int as float;
     };
 }
 ```
 
 </details>
 
-<details>
-<summary>Error handling</summary>
+<details> 
+<summary><strong>Error handling</strong></summary>
 
 ```vanadium
-include std::io;
-include std::err::Result,panic;
+from "std/IO" include print;
+from "std/errors" include Exception;
 
-fn div(a: int32, b: int32): Result&lt;int32, str&gt; {
-    if (b == 0) { Error("Can't divide by zero") }
-    Ok(a / b)
+func div(a: int, b: int): !int {
+    return a / b unless b == 0 ifso throw new Exception("Can't divide by zero");
 }
 
-frozen fn main() {
-    imut result = div(5, 0);
-    switch result {
-        Ok => |res| io::print("Result: " + res),
-        Error => |err| panic(err);
+static func main() {
+    let result = try div(5, 0) catch {|err|
+        print("Error: " + err);
+        return;
     };
+    print("Result: " + result);
 }
 ```
-
 </details>
 
-<details>
-<summary>Create a Vector2 structure</summary>
+<details> 
+<summary><strong>Create a Vector2 class</strong></summary>
 
 ```vanadium
-struct Vector2 {
-    x: float32,
-    y: float32,
+class Vector2 {
+    public x: float,
+    public y: float,
 
-    frozen fn Vector2(self: *Vector2, x: float32, y: float32) {
+    static func new(self: &Vector2, x: float, y: float) {
         self.x = x;
         self.y = y;
     }
 }
 
-frozen fn main() {
-    imut my_vec = new Vector2(0.6, 4.7);
+static func main() {
+    let my_vec = new Vector2(0.6, 4.7);
 }
 ```
 
 </details>
 
-<details>
-<summary>Import another file</summary>
+<details> 
+<summary><strong>Import another file</strong></summary>
 
-File `math.vn`:
+File math.vn:
+
 ```vanadium
-publ frozen fn add(a: int32, b: int32): int32 {
+export static func add(a: int, b: int): int {
     a + b
 }
 ```
 
-File `main.vn`:
-```vanadium
-include std::io;
-include math;
+File main.vn:
 
-frozen fn main() {
-    io::print(math::add(5, 5));
+```vanadium
+from "std/IO" include print;
+include "math";
+
+static func main() {
+    print(add(5, 5));
+}
+```
+
+</details>
+
+<details> 
+<summary><strong>Use static variables</strong></summary>
+
+File config.vn:
+
+```vanadium
+struct Config {
+    public secrets: {string}string = {};
+}
+
+export static conf = new Config;
+```
+
+File secrets.vn:
+
+```vanadium
+include "config";
+
+export static func init_secrets() {
+    config.conf.secrets["PASSW"] = "passivationisthebest123";
+}
+```
+
+File main.vn:
+
+```vanadium
+from "std/IO" include print;
+include "config";
+include "secrets";
+
+static func main() {
+    init_secrets();
+    print(conf.secrets);
 }
 ```
 
 </details>
 
 <details>
-<summary>Use shared variables</summary>
+<summary>
+<strong>Allocate, reference and free memory</strong></summary>
 
-File `config.vn`:
 ```vanadium
-struct Config {
-    secrets: str{str}, @ Map with string keys and string values
+@@ Ignore this! Jump directly to main.
+static func assert(condition: bool, message: string?)  {
+    throw new Exception(message ifnot "Assertion failed!") unless condition;
 }
 
-shared mut conf = new Config;
-```
+static func main() {
+    @/ Manually allocated array
+    let arr = new [4]ulong;
+    assert(arr[2] == 0);
+    arr[2] = 0xFFFFF;
+    defer delete arr;
 
-File `secrets.vn`:
-```vanadium
-include config;
+    let num = 7;
+    @/ Reference to variable "num"
+    let ptr = &amp;num; @@ Referencing
+    defer delete ptr;
 
-publ frozen fn init_secrets() { 
-    config::conf.secrets = {"PASSW" = "passivationisthebest123"};
-}
-```
-
-File `main.vn`:
-```vanadium
-include std::io;
-include config;
-include secrets;
-
-frozen fn main() {
-    secrets::init_secrets();
-    io::print(config::conf.secrets); @ {"PASSW" = "passivationisthebest123"}
+    *ptr = 5;
+    assert(num == 5);
 }
 ```
 
