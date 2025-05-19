@@ -1,5 +1,5 @@
 ---
-title: "Language in what vanadium is developed"
+title: "The three rewrites Vanadium went through"
 show: true
 layout: post
 ---
