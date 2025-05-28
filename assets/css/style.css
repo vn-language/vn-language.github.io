@@ -1,11 +1,19 @@
 :root {
-  --bg-color: #353535;
-  --alt-bg: #2d2d2d;
+  --bg-color: #212121;
+  --alt-bg: #3a3a3a;
   --fg-color: #f4f4f4;
-  --accent-color: #ff9e3f;
-  --link-color: #f5a623;
+  --accent-color: #056ca2;
+  --link-color: #0d5883;
   --code-bg: #3a3a3a;
   --code-fg: #f4f4f4;
+  --sidebar-bg: #282828;
+}
+
+.inter-font {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
 }
 
 * {
@@ -13,14 +21,12 @@
 }
 
 body {
-  font-family: "IBM Plex Mono", monospace, sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: var(--bg-color);
   color: var(--fg-color);
-  margin: 0;
-  padding: 0;
   line-height: 1.6;
   font-size: 1rem;
-  max-width: 40vw;
+  max-width: 75vw;
   margin: auto;
   padding: 2rem;
 }
@@ -52,7 +58,7 @@ nav a:hover {
 
 nav.sidebar {
   width: 250px;
-  background: var(--alt-bg);
+  background: var(--sidebar-bg);
   color: var(--fg-color);
   height: 100vh;
   overflow-y: auto;
@@ -70,7 +76,7 @@ nav.sidebar li {
 }
 
 .hero {
-  background: #444444;
+  background: var(--alt-bg);
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 2rem;

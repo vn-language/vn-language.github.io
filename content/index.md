@@ -28,10 +28,10 @@ Vanadium is fully open-source and non-profit. It is currently being developed in
 <summary><strong>Hello, World!</strong></summary>
 
 ```vanadium
-from "std/IO" include print;
+from "std/IO" include println;
 
 static func main() {
-    print("Hello, World!");
+    println("Hello, World!");
 }
 ```
 
@@ -41,12 +41,12 @@ static func main() {
 <summary><strong>Iterate over an array</strong></summary>
 
 ```vanadium
-from "std/IO" include print;
+from "std/IO" include println;
 
 static func main() {
     let names = ["Jhon", "Tom", "Angela", "Luca"];
     for name in names {
-        print("Hello, " + name + "!");
+        println("Hello, " + name + "!");
     }
 }
 ```
@@ -75,7 +75,7 @@ static func main() {
 <summary><strong>Error handling</strong></summary>
 
 ```vanadium
-from "std/IO" include print;
+from "std/IO" include println;
 from "std/errors" include Exception;
 
 func div(a: int, b: int): !int {
@@ -84,10 +84,10 @@ func div(a: int, b: int): !int {
 
 static func main() {
     let result = try div(5, 0) catch {|err|
-        print("Error: " + err);
+        println("Error: " + err);
         return;
     };
-    print("Result: " + result);
+    println("Result: " + result);
 }
 ```
 </details>
@@ -116,7 +116,7 @@ static func main() {
 <details> 
 <summary><strong>Import another file</strong></summary>
 
-File math.vn:
+File `math.vn`:
 
 ```vanadium
 export static func add(a: int, b: int): int {
@@ -124,14 +124,15 @@ export static func add(a: int, b: int): int {
 }
 ```
 
-File main.vn:
+
+File `main.vn`:
 
 ```vanadium
-from "std/IO" include print;
+from "std/IO" include println;
 include "math";
 
 static func main() {
-    print(add(5, 5));
+    println(add(5, 5));
 }
 ```
 
@@ -163,13 +164,13 @@ export static func init_secrets() {
 File main.vn:
 
 ```vanadium
-from "std/IO" include print;
+from "std/IO" include println;
 include "config";
 include "secrets";
 
 static func main() {
     init_secrets();
-    print(conf.secrets);
+    println(conf.secrets);
 }
 ```
 
