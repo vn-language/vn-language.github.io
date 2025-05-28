@@ -21,7 +21,7 @@ Prism.languages.vanadium = {
   ],
 
   keyword:
-    /\b(?:if|else|elif|while|for|in|repeat|until|defer|delete|match|case|default|func|return|class|public|private|override|struct|iface|impl|enum|let|const|static|discard|from|include|typeof|throw|try|catch|guard|as|unless|ifso|new|destruct|unsafe|break|continue|delete|export|sealed)\b/,
+    /\b(?:if|else|elif|while|for|in|repeat|until|defer|delete|match|case|default|func|return|class|public|private|override|struct|iface|impl|enum|let|const|static|discard|from|include|typeof|throw|try|catch|guard|as|unless|ifso|new|destruct|unsafe|break|continue|delete|export|sealed|abstract)\b/,
 
   boolean: /\b(true|false|null)\b/,
 

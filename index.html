@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <title>Vanadium</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+  rel="stylesheet"
+/>
+
   </head>
   <body>
     <link
@@ -46,20 +54,20 @@
 <h3>Examples:</h3>
 <details> 
 <summary><strong>Hello, World!</strong></summary>
-<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include print;
+<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include println;
 
 static func main() {
-    print("Hello, World!");
+    println("Hello, World!");
 }</code></pre>
 </details>
 <details> 
 <summary><strong>Iterate over an array</strong></summary>
-<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include print;
+<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include println;
 
 static func main() {
     let names = ["Jhon", "Tom", "Angela", "Luca"];
     for name in names {
-        print("Hello, " + name + "!");
+        println("Hello, " + name + "!");
     }
 }</code></pre>
 </details>
@@ -78,7 +86,7 @@ static func main() {
 </details>
 <details> 
 <summary><strong>Error handling</strong></summary>
-<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include print;
+<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include println;
 from "std/errors" include Exception;
 
 func div(a: int, b: int): !int {
@@ -87,10 +95,10 @@ func div(a: int, b: int): !int {
 
 static func main() {
     let result = try div(5, 0) catch {|err|
-        print("Error: " + err);
+        println("Error: " + err);
         return;
     };
-    print("Result: " + result);
+    println("Result: " + result);
 }</code></pre>
 </details>
 <details> 
@@ -111,16 +119,16 @@ static func main() {
 </details>
 <details> 
 <summary><strong>Import another file</strong></summary>
-<p>File <a href="http://math.vn">math.vn</a>:</p>
+<p>File <code>math.vn</code>:</p>
 <pre class="language-vanadium"><code class="language-vanadium">export static func add(a: int, b: int): int {
     a + b
 }</code></pre>
-<p>File <a href="http://main.vn">main.vn</a>:</p>
-<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include print;
+<p>File <code>main.vn</code>:</p>
+<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include println;
 include "math";
 
 static func main() {
-    print(add(5, 5));
+    println(add(5, 5));
 }</code></pre>
 </details>
 <details> 
@@ -138,13 +146,13 @@ export static func init_secrets() {
     config.conf.secrets["PASSW"] = "passivationisthebest123";
 }</code></pre>
 <p>File <a href="http://main.vn">main.vn</a>:</p>
-<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include print;
+<pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include println;
 include "config";
 include "secrets";
 
 static func main() {
     init_secrets();
-    print(conf.secrets);
+    println(conf.secrets);
 }</code></pre>
 </details>
 <details>
