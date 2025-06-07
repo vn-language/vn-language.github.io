@@ -1,7 +1,7 @@
 ---
 title: Vanadium
 layout: index.html
-vanadium_desc: "Vanadium is a lightweight high-level systems language designed for clarity, safety, and reliability."
+vanadium_desc: "Vanadium is a lightweight high-level systems language designed for clarity, safety, and reliability. Designed to replace the pain C++ is."
 ---
 Vanadium is a robust systems-level programming language built with expressiveness, safety and strictness in mind. It combines systems-level features, like manual memory management or bit-sized integers, with high-level features, like lambdas or a file-based module system. 
 
@@ -19,10 +19,7 @@ Some of its core features are:
 - Sealed classes
 - Lambdas
 
-### Examples:
-
-<details> 
-<summary><strong>Hello, World!</strong></summary>
+### Hello, World!
 
 ```vanadium
 from "std/IO" include println;
@@ -32,7 +29,8 @@ static func main() {
 }
 ```
 
-</details>
+
+### More examples:
 
 <details> 
 <summary><strong>Iterate over an array</strong></summary>
@@ -183,6 +181,19 @@ include "secrets";
 static func main() {
     secrets.init_secrets();
     println(config.conf.secrets);
+}
+```
+
+</details>
+
+<details>
+<summary><strong>Make an assert function</strong></summary>
+
+```vanadium
+from "std/err" include Exception;
+
+static func assert(condition: bool, message: string?) {
+    throw new Exception(message ifnot "Assertion failed!") unless condition;
 }
 ```
 
