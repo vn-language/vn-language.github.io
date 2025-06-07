@@ -3,24 +3,40 @@ title: Vanadium
 layout: index.html
 vanadium_desc: "Vanadium is a lightweight high-level systems language designed for clarity, safety, and reliability."
 ---
-Vanadium is a robust programming language built with expressiveness and safety in mind. It blends low-level paradigms like manual memory management and bit-sized integers with high-level features, backed by a powerful unsafe system for when full control is needed.
+<!--Vanadium is a robust programming language built with expressiveness and safety in mind. It blends low-level paradigms like manual memory management and bit-sized integers with high-level features, backed by a powerful unsafe system for when full control is needed.-->
+<!---->
+<!--Vanadium gives you what you expect from C++ — and then some:-->
+<!---->
+<!--- Interfaces-->
+<!--- `defer` and memory management helpers-->
+<!--- Cleaner lambdas-->
+<!--- Simpler iteration-->
+<!--- Safer (but optional) casting-->
+<!--- Sealed classes-->
+<!--- A real module system-->
+<!--- Compile-time values-->
+<!--- Clean error handling (`try`, `guard`, etc.)-->
+<!--- Implicit type inference (without auto)-->
+<!---->
+<!--All this is packed in a language that prioritizes explicitness, transparency, and power, with a cleaner syntax and better tooling in mind.-->
+<!---->
+<!--Vanadium is fully open-source and non-profit. It is currently being developed in C++.-->
 
-Vanadium gives you what you expect from C++ — and then some:
+Vanadium is a robust systems-level programming language built with expressiveness, safety and strictness in mind. It combines systems-level features, like manual memory management or bit-sized integers, with high-level features, like lambdas or a file-based module system. 
 
-- Interfaces
-- `defer` and memory management helpers
-- Cleaner lambdas
-- Simpler iteration
-- Safer (but optional) casting
+Vanadium is often thinked of as the safer, more expressive version of C++.
+
+Some of its core features are:
+- C interoperability
+- Blocks as expressions
+- Strong typing and weak casts
+- Low overhead *(if you don't mess up a lot)*
+- JIT-compilation
+- Clean error handling
+- Intuitive module system
+- Simple iterators <small>*(yes, [that exists](https://preview.redd.it/just-do-for-loops-why-do-you-gotta-complicate-things-so-much-v0-ha3h3fd7a4ue1.png?width=640&crop=smart&auto=webp&s=64d0a896b143714a2db035a598a232462707238b))*</small>
 - Sealed classes
-- A real module system
-- Compile-time values
-- Clean error handling (`try`, `guard`, etc.)
-- Implicit type inference (without auto)
-
-All this is packed in a language that prioritizes explicitness, transparency, and power, with a cleaner syntax and better tooling in mind.
-
-Vanadium is fully open-source and non-profit. It is currently being developed in C++.
+- Lambdas
 
 ### Examples:
 
@@ -54,18 +70,27 @@ static func main() {
 </details>
 
 <details> 
-<summary><strong>Unsafe casting</strong></summary>
+<summary><strong>Unsafe usage</strong></summary>
 
 ```vanadium
 static func main() {
     let long_int: long = 0xFFFFF;
 
     @@ Unsafe narrowing cast
-    let to_short: short = unsafe { long_int as short };
+    let long_as_short: short = unsafe { long_int as short };
 
     unsafe {
         let to_float: float = long_int as float;
+        discard long_to_short(long_int);
     };
+
+    @* Compile error
+    discard long_to_short(long_int); 
+    *@
+}
+
+unsafe func long_to_short(n: long): short {
+    return n as short;
 }
 ```
 
@@ -76,7 +101,7 @@ static func main() {
 
 ```vanadium
 from "std/IO" include println;
-from "std/errors" include Exception;
+from "std/err" include Exception;
 
 func div(a: int, b: int): !int {
     return a / b unless b == 0 ifso throw new Exception("Can't divide by zero");
@@ -122,6 +147,10 @@ File `math.vn`:
 export static func add(a: int, b: int): int {
     a + b
 }
+
+export static func sub(a: int, b: int): int {
+    a - b
+}
 ```
 
 
@@ -130,9 +159,11 @@ File `main.vn`:
 ```vanadium
 from "std/IO" include println;
 include "math";
+from "math" include sub;
 
 static func main() {
-    println(add(5, 5));
+    println(math.add(5, 5));
+    println(sub(6, 3));
 }
 ```
 
@@ -141,7 +172,7 @@ static func main() {
 <details> 
 <summary><strong>Use static variables</strong></summary>
 
-File config.vn:
+File `config.vn`:
 
 ```vanadium
 struct Config {
@@ -151,7 +182,7 @@ struct Config {
 export static conf = new Config;
 ```
 
-File secrets.vn:
+File `secrets.vn`:
 
 ```vanadium
 include "config";
@@ -161,7 +192,7 @@ export static func init_secrets() {
 }
 ```
 
-File main.vn:
+File `main.vn`:
 
 ```vanadium
 from "std/IO" include println;
@@ -169,37 +200,36 @@ include "config";
 include "secrets";
 
 static func main() {
-    init_secrets();
-    println(conf.secrets);
+    secrets.init_secrets();
+    println(config.conf.secrets);
 }
 ```
 
 </details>
 
 <details>
-<summary>
-<strong>Allocate, reference and free memory</strong></summary>
+<summary><strong>Allocate, reference and free memory</strong></summary>
 
 ```vanadium
-@@ Ignore this! Jump directly to main.
-static func assert(condition: bool, message: string?)  {
-    throw new Exception(message ifnot "Assertion failed!") unless condition;
-}
-
 static func main() {
-    @/ Manually allocated array
+    @@ Manually allocated array
     let arr = new [4]ulong;
     assert(arr[2] == 0);
     arr[2] = 0xFFFFF;
     defer delete arr;
 
     let num = 7;
-    @/ Reference to variable "num"
     let ptr = &amp;num; @@ Referencing
     defer delete ptr;
 
-    *ptr = 5;
+    *ptr = 5; @@ Dereferencing
     assert(num == 5);
+}
+
+@@ Ignore this!
+from "std/err" include Exception;
+static func assert(condition: bool, message: string?)  {
+    throw new Exception(message ifnot "Assertion failed!") unless condition;
 }
 ```
 
