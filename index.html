@@ -18,27 +18,20 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css"
     />
-    <header>
-      <h1><a href="/">Vanadium</a></h1>
-      <nav>
+    <main>
+      <section class="hero">
+        <header>
+          <h1><a href="/">Vanadium</a></h1>
+          <nav>
   <a href="/docs/">Docs</a>
   <a href="/spec/">Spec</a>
   <a href="/ref/">Standard Library</a>
   <a href="/blog/">Blog</a>
 </nav>
 
-    </header>
-
-    <main>
-      <section class="hero">
-        <img
-          width="50px"
-          height="55px"
-          src="assets/images/favicon.png"
-          alt="Logo"
-        />
-        <h2>A small, robust programming language</h2>
-        <p>Vanadium is a lightweight high-level systems language designed for clarity, safety, and reliability.</p>
+        </header>
+        <h2>The language that just works</h2>
+        <p>Vanadium is a lightweight high-level systems language designed for clarity, safety, and reliability. Designed to replace the pain C++ is.</p>
       </section>
 
       <p>Vanadium is a robust systems-level programming language built with expressiveness, safety and strictness in mind. It combines systems-level features, like manual memory management or bit-sized integers, with high-level features, like lambdas or a file-based module system.</p>
@@ -56,15 +49,13 @@
 <li>Sealed classes</li>
 <li>Lambdas</li>
 </ul>
-<h3>Examples:</h3>
-<details> 
-<summary><strong>Hello, World!</strong></summary>
+<h3>Hello, World!</h3>
 <pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include println;
 
 static func main() {
     println("Hello, World!");
 }</code></pre>
-</details>
+<h3>More examples:</h3>
 <details> 
 <summary><strong>Iterate over an array</strong></summary>
 <pre class="language-vanadium"><code class="language-vanadium">from "std/IO" include println;
@@ -173,6 +164,14 @@ include "secrets";
 static func main() {
     secrets.init_secrets();
     println(config.conf.secrets);
+}</code></pre>
+</details>
+<details>
+<summary><strong>Make an assert function</strong></summary>
+<pre class="language-vanadium"><code class="language-vanadium">from "std/err" include Exception;
+
+static func assert(condition: bool, message: string?) {
+    throw new Exception(message ifnot "Assertion failed!") unless condition;
 }</code></pre>
 </details>
 <details>
