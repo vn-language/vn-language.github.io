@@ -2,6 +2,7 @@
 title: "The three rewrites Vanadium went through"
 show: true
 layout: post
+last_edited: 2025-06-09
 ---
 
 If you take a peek at Vanadium's commit history, you will see two interesting commits:
